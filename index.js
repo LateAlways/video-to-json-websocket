@@ -29,12 +29,12 @@ server.on('connection', async function(socket) {
     const url = video;
     console.log("Request: "+action + ", " + video + ", " + frame)
     const promise = new Promise((resolve, reject) => {
-        if(filesys.exists("./request/"+url.replace("https://www.youtube.com/watch?v=","")+".mkv")) {
+        if(filesys.exists("./request/"+url.replace("https://www.youtube.com/watch?v=","")+".mp4")) {
     		if(!filesys.exists("./saves/"+url.replace("https://www.youtube.com/watch?v=","")+"/")) {
     		    filesys.makefolder("./saves/"+url.replace("https://www.youtube.com/watch?v=","")+"/");
     		}
     		
-    		ffmpeg("./request/"+url.replace("https://www.youtube.com/watch?v=","")+".mkv")
+    		ffmpeg("./request/"+url.replace("https://www.youtube.com/watch?v=","")+".mp4")
     		    .on("end", ()=> {
     		        console.log("done")
     		        resolve();
@@ -53,7 +53,7 @@ server.on('connection', async function(socket) {
     		})*/
         } else {
             ytdl(url).on("end",() => {
-                ffmpeg("./request/"+url.replace("https://www.youtube.com/watch?v=","")+".mkv")
+                ffmpeg("./request/"+url.replace("https://www.youtube.com/watch?v=","")+".mp4")
                 .on("error", (err) => {
     		        reject(err);
     		    })
@@ -61,7 +61,7 @@ server.on('connection', async function(socket) {
                     if(!filesys.exists("./saves/"+url.replace("https://www.youtube.com/watch?v=",""))) {
             		    filesys.makefolder("./saves/"+url.replace("https://www.youtube.com/watch?v=",""));
             		}
-        			ffmpeg("./request/"+url.replace("https://www.youtube.com/watch?v=","")+".mkv")
+        			ffmpeg("./request/"+url.replace("https://www.youtube.com/watch?v=","")+".mp4")
             		    .on("end", ()=> {
             		        resolve();
             		    })
@@ -75,8 +75,8 @@ server.on('connection', async function(socket) {
         		})
         		.inputFPS(20)
         		
-        		.pipe(fs.createWriteStream("./request/"+url.replace("https://www.youtube.com/watch?v=","")+".mkv"));
-            }).pipe(fs.createWriteStream("./request/"+url.replace("https://www.youtube.com/watch?v=","")+".mkv"));
+        		.pipe(fs.createWriteStream("./request/"+url.replace("https://www.youtube.com/watch?v=","")+".mp4"));
+            }).pipe(fs.createWriteStream("./request/"+url.replace("https://www.youtube.com/watch?v=","")+".mp4"));
         }
     });
     //END PROMISE
