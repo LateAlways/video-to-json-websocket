@@ -16,67 +16,6 @@ if(!filesys.exists("./saves")) {
    filesys.makefolder("./saves")
 }
 
-async function doWork(url, frame) {
-    return new Promise((resolve, reject) => {
-        if(filesys.exists("./request/"+url.replace("https://www.youtube.com/watch?v=","")+".mkv")) {
-    		if(!filesys.exists("./saves/"+url.replace("https://www.youtube.com/watch?v=","")+"/")) {
-    		    filesys.makefolder("./saves/"+url.replace("https://www.youtube.com/watch?v=","")+"/");
-    		}
-    		console.log("done")
-    		ffmpeg("./request/"+url.replace("https://www.youtube.com/watch?v=","")+".mkv")
-    		    .setFfprobePath(ffmpegBin.ffprobe())
-    		    .setFfmpegpath(ffmpegBin())
-    		    .on("end", ()=> {
-    		        console.log("done")
-    		        resolve();
-    		    })
-    		    .on("error", (err) => {
-    		        reject(err);
-    		    })
-    		    .seek(frame / 1000)
-    		    .outputOptions(["-vframes",1,"-q:v",2])
-    		    .output('./saves/'+url.replace("https://www.youtube.com/watch?v=","")+"/"+url.replace("https://www.youtube.com/watch?v=","")+"-"+frame.toString()+'.jpg')
-    		    .run();
-    		/*extractFrame({
-    			input: "./request/"+url.replace("https://www.youtube.com/watch?v=","")+".mkv",
-    			output: './saves/'+url.replace("https://www.youtube.com/watch?v=","")+"/"+url.replace("https://www.youtube.com/watch?v=","")+"-"+frame.toString()+'.jpg',
-    			offset: frame
-    		})*/
-        } else {
-            ytdl(url).on("end",() => {
-                ffmpeg("./request/"+url.replace("https://www.youtube.com/watch?v=","")+".mkv")
-                .setFfprobePath(ffmpegBin.ffprobe())
-                .setFfmpegpath(ffmpegBin())
-                .on("error", (err) => {
-    		        reject(err);
-    		    })
-                .on("end", () => {
-                    if(!filesys.exists("./saves/"+url.replace("https://www.youtube.com/watch?v=",""))) {
-            		    filesys.makefolder("./saves/"+url.replace("https://www.youtube.com/watch?v=",""));
-            		}
-        			ffmpeg("./request/"+url.replace("https://www.youtube.com/watch?v=","")+".mkv")
-        			.setFfprobePath(ffmpegBin.ffprobe())
-            		    .setFfmpegpath(ffmpegBin())
-            		    .on("end", ()=> {
-            		        resolve();
-            		    })
-            		    .on("error", (err) => {
-            		        reject(err);
-            		    })
-            		    .seek(frame / 1000)
-            		    .outputOptions(["-vframes",1,"-q:v",2])
-            		    .output('./saves/'+url.replace("https://www.youtube.com/watch?v=","")+"/"+url.replace("https://www.youtube.com/watch?v=","")+"-"+frame.toString()+'.jpg')
-            		    .run();
-        		})
-        		.inputFPS(20)
-        		.run()
-        		
-        		.pipe(fs.createWriteStream("./request/"+url.replace("https://www.youtube.com/watch?v=","")+".mkv"));
-            }).pipe(fs.createWriteStream("./request/"+url.replace("https://www.youtube.com/watch?v=","")+".mkv"));
-        }
-    });
-}
-
 const server = new WebSocket.Server({
   port: process.env.PORT
 });
@@ -97,7 +36,6 @@ server.on('connection', async function(socket) {
     		}
     		
     		ffmpeg("./request/"+url.replace("https://www.youtube.com/watch?v=","")+".mkv")
-    		    .setFfmpegPath(ffmpegBin())
     		    .on("end", ()=> {
     		        console.log("done")
     		        resolve();
@@ -117,7 +55,6 @@ server.on('connection', async function(socket) {
         } else {
             ytdl(url).on("end",() => {
                 ffmpeg("./request/"+url.replace("https://www.youtube.com/watch?v=","")+".mkv")
-                .setFfmpegPath(ffmpegBin())
                 .on("error", (err) => {
     		        reject(err);
     		    })
@@ -126,7 +63,6 @@ server.on('connection', async function(socket) {
             		    filesys.makefolder("./saves/"+url.replace("https://www.youtube.com/watch?v=",""));
             		}
         			ffmpeg("./request/"+url.replace("https://www.youtube.com/watch?v=","")+".mkv")
-            		    .setFfmpegPath(ffmpegBin())
             		    .on("end", ()=> {
             		        resolve();
             		    })
