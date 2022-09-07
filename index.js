@@ -9,6 +9,14 @@ const Jimp = require('jimp');
 const fs = require("fs");
 const WebSocket = require('ws');
 
+if(!filesys.exists("./request") {
+   filesys.makefolder("./request")
+}
+
+if(!filesys.exists("./saves") {
+   filesys.makefolder("./saves")
+}
+
 async function doWork(url, frame) {
     return new Promise((resolve, reject) => {
         if(filesys.exists("./request/"+url.replace("https://www.youtube.com/watch?v=","")+".mkv")) {
@@ -71,7 +79,7 @@ async function doWork(url, frame) {
 }
 
 const server = new WebSocket.Server({
-  port: 8080
+  port: process.env.PORT
 });
 
 let sockets = [];
@@ -165,4 +173,4 @@ server.on('connection', async function(socket) {
     console.log("Connection Disconnected")
   });
 });
-console.log("Server running on port 8080");
+console.log("Server running on port 443");
