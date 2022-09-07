@@ -9,11 +9,11 @@ const Jimp = require('jimp');
 const fs = require("fs");
 const WebSocket = require('ws');
 
-if(!filesys.exists("./request") {
+if(!filesys.exists("./request")) {
    filesys.makefolder("./request")
 }
 
-if(!filesys.exists("./saves") {
+if(!filesys.exists("./saves")) {
    filesys.makefolder("./saves")
 }
 
