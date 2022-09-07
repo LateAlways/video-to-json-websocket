@@ -1,0 +1,19 @@
+{
+  "name": "video-to-json-websocket",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ffmpeg-binary-linux-64bit": "^0.1.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "jimp": "^0.16.0",
+    "ws": "^7.5.0",
+    "ytdl-core": "^4.11.2"
+  }
+}
