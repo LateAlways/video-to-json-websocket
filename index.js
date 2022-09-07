@@ -1,6 +1,5 @@
 'use strict'
 
-const ffmpegBin = require('ffmpeg-binary-linux-64bit');
 const ytdl = require('ytdl-core');
 const ffmpeg = require("fluent-ffmpeg");
 const filesys = require("./filesys");
